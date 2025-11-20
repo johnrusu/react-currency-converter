@@ -223,6 +223,7 @@ export const isValidJSON = (value: string = ""): boolean => {
     try {
       return JSON.parse(value);
     } catch (err) {
+      console.error("Invalid JSON string:", err);
       return false;
     }
   })(value);
