@@ -22,7 +22,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Single deploy job since we're building and deploying
+  # Build and deploy job
   deploy:
     environment:
       name: github-pages
@@ -35,13 +35,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: "20"
           cache: "npm"
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Build app
+      - name: Build application
         run: npm run build
 
       - name: Setup Pages
@@ -50,7 +50,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload dist directory
+          # Upload dist folder (Vite build output)
           path: "./dist"
 
       - name: Deploy to GitHub Pages
