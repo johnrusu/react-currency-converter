@@ -1,5 +1,5 @@
 import { pathOr } from "ramda";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 // mui components
 import {
@@ -62,7 +62,7 @@ const CurrencyConverter: React.FC<ICurrencyConverter> = (
 
   const currencies: [string, number][] = Object.entries(data);
 
-  const exchangeRate = () => {
+  const exchangeRate = useCallback(() => {
     if (isNilOrEmpty(data)) return; // No data available
     if (isNilOrEmpty(fromCurrency) || isNilOrEmpty(toCurrency)) return; // Invalid currency selection
 
@@ -82,11 +82,11 @@ const CurrencyConverter: React.FC<ICurrencyConverter> = (
         `${LABELS.convertedAmount}: ${converted.toFixed(2)} ${toCurrency}`
       );
     }
-  };
+  }, [data, fromCurrency, toCurrency, amount]);
 
   useEffect(() => {
     exchangeRate();
-  }, [amount, fromCurrency, toCurrency]);
+  }, [exchangeRate]);
 
   return !isNilOrEmpty(error) ? (
     <>{error}</>
