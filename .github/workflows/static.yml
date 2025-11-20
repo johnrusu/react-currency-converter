@@ -24,6 +24,8 @@ concurrency:
 jobs:
   # Build and deploy job
   deploy:
+    env:
+      VITE_CURRENCY_API_KEY: ${{ secrets.VITE_CURRENCY_API_KEY }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
