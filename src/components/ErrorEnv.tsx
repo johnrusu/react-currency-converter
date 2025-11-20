@@ -1,5 +1,3 @@
-import React from "react";
-
 const ErrorEnv = () => (
   <div className="env-error">
     <h2>

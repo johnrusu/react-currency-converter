@@ -1,5 +1,5 @@
 // validation tools
-import { anyPass, has, is, isEmpty, isNil, equals } from "ramda";
+import { anyPass, has, is, isEmpty, isNil } from "ramda";
 
 export { isEmpty, anyPass, isNil, is };
 
@@ -199,13 +199,15 @@ export const waitForElm = (selector: string): Promise<unknown> => {
 export const removeArrObjectsDuplicates = (arr: unknown[] = []): unknown[] => {
   if (isArrayNotEmpty(arr)) {
     try {
-      // @ts-ignore
+      // @ts-expect-error JSON.stringify is compatible with unknown array elements
       const setObj = new Set(arr.map(JSON.stringify));
       if (!isNilOrEmpty(setObj)) {
-        // @ts-ignore
+        // @ts-expect-error JSON.parse safely handles stringified objects
         return Array.from(setObj).map(JSON.parse);
       }
-    } catch (err) {}
+    } catch (err) {
+      console.error(`${err}, Error removing array object duplicates`);
+    }
   }
   return arr;
 };
